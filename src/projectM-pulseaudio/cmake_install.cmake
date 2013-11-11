@@ -1,8 +1,8 @@
-# Install script for directory: /home/carm/workspace/projectm-trunk-release/src/projectM-pulseaudio
+# Install script for directory: /home/stan/Projects/afrika-burns-2014/src/projectM-pulseaudio
 
 # Set the install prefix
 IF(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  SET(CMAKE_INSTALL_PREFIX "/usr/local")
+  SET(CMAKE_INSTALL_PREFIX "/usr")
 ENDIF(NOT DEFINED CMAKE_INSTALL_PREFIX)
 STRING(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -12,7 +12,7 @@ IF(NOT DEFINED CMAKE_INSTALL_CONFIG_NAME)
     STRING(REGEX REPLACE "^[^A-Za-z0-9_]+" ""
            CMAKE_INSTALL_CONFIG_NAME "${BUILD_TYPE}")
   ELSE(BUILD_TYPE)
-    SET(CMAKE_INSTALL_CONFIG_NAME "Release")
+    SET(CMAKE_INSTALL_CONFIG_NAME "")
   ENDIF(BUILD_TYPE)
   MESSAGE(STATUS "Install configuration: \"${CMAKE_INSTALL_CONFIG_NAME}\"")
 ENDIF(NOT DEFINED CMAKE_INSTALL_CONFIG_NAME)
@@ -33,28 +33,28 @@ IF(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
 ENDIF(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  IF(EXISTS "$ENV{DESTDIR}/usr/local/bin/projectM-pulseaudio" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/usr/local/bin/projectM-pulseaudio")
+  IF(EXISTS "$ENV{DESTDIR}/usr/bin/projectM-pulseaudio" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/usr/bin/projectM-pulseaudio")
     FILE(RPATH_CHECK
-         FILE "$ENV{DESTDIR}/usr/local/bin/projectM-pulseaudio"
+         FILE "$ENV{DESTDIR}/usr/bin/projectM-pulseaudio"
          RPATH "")
   ENDIF()
   list(APPEND CPACK_ABSOLUTE_DESTINATION_FILES
-   "/usr/local/bin/projectM-pulseaudio")
-FILE(INSTALL DESTINATION "/usr/local/bin" TYPE EXECUTABLE FILES "/home/carm/workspace/projectm-trunk-release/src/projectM-pulseaudio/projectM-pulseaudio")
-  IF(EXISTS "$ENV{DESTDIR}/usr/local/bin/projectM-pulseaudio" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/usr/local/bin/projectM-pulseaudio")
+   "/usr/bin/projectM-pulseaudio")
+FILE(INSTALL DESTINATION "/usr/bin" TYPE EXECUTABLE FILES "/home/stan/Projects/afrika-burns-2014/src/projectM-pulseaudio/projectM-pulseaudio")
+  IF(EXISTS "$ENV{DESTDIR}/usr/bin/projectM-pulseaudio" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/usr/bin/projectM-pulseaudio")
     FILE(RPATH_REMOVE
-         FILE "$ENV{DESTDIR}/usr/local/bin/projectM-pulseaudio")
+         FILE "$ENV{DESTDIR}/usr/bin/projectM-pulseaudio")
     IF(CMAKE_INSTALL_DO_STRIP)
-      EXECUTE_PROCESS(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/usr/local/bin/projectM-pulseaudio")
+      EXECUTE_PROCESS(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/usr/bin/projectM-pulseaudio")
     ENDIF(CMAKE_INSTALL_DO_STRIP)
   ENDIF()
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   list(APPEND CPACK_ABSOLUTE_DESTINATION_FILES
-   "/usr/local/share/applications/projectM-pulseaudio.desktop")
-FILE(INSTALL DESTINATION "/usr/local/share/applications" TYPE FILE FILES "/home/carm/workspace/projectm-trunk-release/src/projectM-pulseaudio/projectM-pulseaudio.desktop")
+   "/usr/share/applications/projectM-pulseaudio.desktop")
+FILE(INSTALL DESTINATION "/usr/share/applications" TYPE FILE FILES "/home/stan/Projects/afrika-burns-2014/src/projectM-pulseaudio/projectM-pulseaudio.desktop")
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 

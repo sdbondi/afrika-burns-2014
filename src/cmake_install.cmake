@@ -1,8 +1,8 @@
-# Install script for directory: /home/carm/workspace/projectm-trunk-release/src
+# Install script for directory: /home/stan/Projects/afrika-burns-2014/src
 
 # Set the install prefix
 IF(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  SET(CMAKE_INSTALL_PREFIX "/usr/local")
+  SET(CMAKE_INSTALL_PREFIX "/usr")
 ENDIF(NOT DEFINED CMAKE_INSTALL_PREFIX)
 STRING(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -12,7 +12,7 @@ IF(NOT DEFINED CMAKE_INSTALL_CONFIG_NAME)
     STRING(REGEX REPLACE "^[^A-Za-z0-9_]+" ""
            CMAKE_INSTALL_CONFIG_NAME "${BUILD_TYPE}")
   ELSE(BUILD_TYPE)
-    SET(CMAKE_INSTALL_CONFIG_NAME "Release")
+    SET(CMAKE_INSTALL_CONFIG_NAME "")
   ENDIF(BUILD_TYPE)
   MESSAGE(STATUS "Install configuration: \"${CMAKE_INSTALL_CONFIG_NAME}\"")
 ENDIF(NOT DEFINED CMAKE_INSTALL_CONFIG_NAME)
@@ -34,12 +34,11 @@ ENDIF(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
 
 IF(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  INCLUDE("/home/carm/workspace/projectm-trunk-release/src/libprojectM/cmake_install.cmake")
-  INCLUDE("/home/carm/workspace/projectm-trunk-release/src/projectM-test/cmake_install.cmake")
-  INCLUDE("/home/carm/workspace/projectm-trunk-release/src/projectM-qt/cmake_install.cmake")
-  INCLUDE("/home/carm/workspace/projectm-trunk-release/src/projectM-pulseaudio/cmake_install.cmake")
-  INCLUDE("/home/carm/workspace/projectm-trunk-release/src/projectM-libvisual/cmake_install.cmake")
-  INCLUDE("/home/carm/workspace/projectm-trunk-release/src/NativePresets/cmake_install.cmake")
+  INCLUDE("/home/stan/Projects/afrika-burns-2014/src/libprojectM/cmake_install.cmake")
+  INCLUDE("/home/stan/Projects/afrika-burns-2014/src/projectM-qt/cmake_install.cmake")
+  INCLUDE("/home/stan/Projects/afrika-burns-2014/src/projectM-pulseaudio/cmake_install.cmake")
+  INCLUDE("/home/stan/Projects/afrika-burns-2014/src/projectM-libvisual/cmake_install.cmake")
+  INCLUDE("/home/stan/Projects/afrika-burns-2014/src/NativePresets/cmake_install.cmake")
 
 ENDIF(NOT CMAKE_INSTALL_LOCAL_ONLY)
 
