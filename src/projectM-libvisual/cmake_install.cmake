@@ -2,7 +2,7 @@
 
 # Set the install prefix
 IF(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  SET(CMAKE_INSTALL_PREFIX "/usr")
+  SET(CMAKE_INSTALL_PREFIX "/usr/local")
 ENDIF(NOT DEFINED CMAKE_INSTALL_PREFIX)
 STRING(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -39,8 +39,14 @@ IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspeci
          FILE "$ENV{DESTDIR}/usr/lib/x86_64-linux-gnu/libvisual-0.4/actor/libprojectM_libvisual.so"
          RPATH "")
   ENDIF()
-  list(APPEND CPACK_ABSOLUTE_DESTINATION_FILES
+  list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
    "/usr/lib/x86_64-linux-gnu/libvisual-0.4/actor/libprojectM_libvisual.so")
+  IF (CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
+    message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+  ENDIF (CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
+  IF (CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
+    message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+  ENDIF (CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
 FILE(INSTALL DESTINATION "/usr/lib/x86_64-linux-gnu/libvisual-0.4/actor" TYPE SHARED_LIBRARY FILES "/home/stan/Projects/afrika-burns-2014/src/projectM-libvisual/libprojectM_libvisual.so")
   IF(EXISTS "$ENV{DESTDIR}/usr/lib/x86_64-linux-gnu/libvisual-0.4/actor/libprojectM_libvisual.so" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}/usr/lib/x86_64-linux-gnu/libvisual-0.4/actor/libprojectM_libvisual.so")

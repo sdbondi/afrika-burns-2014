@@ -2,7 +2,7 @@
 
 # Set the install prefix
 IF(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  SET(CMAKE_INSTALL_PREFIX "/usr")
+  SET(CMAKE_INSTALL_PREFIX "/usr/local")
 ENDIF(NOT DEFINED CMAKE_INSTALL_PREFIX)
 STRING(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -33,41 +33,53 @@ IF(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
 ENDIF(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  IF(EXISTS "$ENV{DESTDIR}/usr/bin/projectM-test" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/usr/bin/projectM-test")
+  IF(EXISTS "$ENV{DESTDIR}/usr/local/bin/projectM-test" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/usr/local/bin/projectM-test")
     FILE(RPATH_CHECK
-         FILE "$ENV{DESTDIR}/usr/bin/projectM-test"
+         FILE "$ENV{DESTDIR}/usr/local/bin/projectM-test"
          RPATH "")
   ENDIF()
-  list(APPEND CPACK_ABSOLUTE_DESTINATION_FILES
-   "/usr/bin/projectM-test")
-FILE(INSTALL DESTINATION "/usr/bin" TYPE EXECUTABLE FILES "/home/stan/Projects/afrika-burns-2014/src/projectM-test/projectM-test")
-  IF(EXISTS "$ENV{DESTDIR}/usr/bin/projectM-test" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/usr/bin/projectM-test")
+  list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
+   "/usr/local/bin/projectM-test")
+  IF (CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
+    message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+  ENDIF (CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
+  IF (CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
+    message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+  ENDIF (CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
+FILE(INSTALL DESTINATION "/usr/local/bin" TYPE EXECUTABLE FILES "/home/stan/Projects/afrika-burns-2014/src/projectM-test/projectM-test")
+  IF(EXISTS "$ENV{DESTDIR}/usr/local/bin/projectM-test" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/usr/local/bin/projectM-test")
     FILE(RPATH_REMOVE
-         FILE "$ENV{DESTDIR}/usr/bin/projectM-test")
+         FILE "$ENV{DESTDIR}/usr/local/bin/projectM-test")
     IF(CMAKE_INSTALL_DO_STRIP)
-      EXECUTE_PROCESS(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/usr/bin/projectM-test")
+      EXECUTE_PROCESS(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/usr/local/bin/projectM-test")
     ENDIF(CMAKE_INSTALL_DO_STRIP)
   ENDIF()
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  IF(EXISTS "$ENV{DESTDIR}/usr/bin/projectM-test-texture" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/usr/bin/projectM-test-texture")
+  IF(EXISTS "$ENV{DESTDIR}/usr/local/bin/projectM-test-texture" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/usr/local/bin/projectM-test-texture")
     FILE(RPATH_CHECK
-         FILE "$ENV{DESTDIR}/usr/bin/projectM-test-texture"
+         FILE "$ENV{DESTDIR}/usr/local/bin/projectM-test-texture"
          RPATH "")
   ENDIF()
-  list(APPEND CPACK_ABSOLUTE_DESTINATION_FILES
-   "/usr/bin/projectM-test-texture")
-FILE(INSTALL DESTINATION "/usr/bin" TYPE EXECUTABLE FILES "/home/stan/Projects/afrika-burns-2014/src/projectM-test/projectM-test-texture")
-  IF(EXISTS "$ENV{DESTDIR}/usr/bin/projectM-test-texture" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/usr/bin/projectM-test-texture")
+  list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
+   "/usr/local/bin/projectM-test-texture")
+  IF (CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
+    message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+  ENDIF (CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
+  IF (CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
+    message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+  ENDIF (CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
+FILE(INSTALL DESTINATION "/usr/local/bin" TYPE EXECUTABLE FILES "/home/stan/Projects/afrika-burns-2014/src/projectM-test/projectM-test-texture")
+  IF(EXISTS "$ENV{DESTDIR}/usr/local/bin/projectM-test-texture" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/usr/local/bin/projectM-test-texture")
     FILE(RPATH_REMOVE
-         FILE "$ENV{DESTDIR}/usr/bin/projectM-test-texture")
+         FILE "$ENV{DESTDIR}/usr/local/bin/projectM-test-texture")
     IF(CMAKE_INSTALL_DO_STRIP)
-      EXECUTE_PROCESS(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/usr/bin/projectM-test-texture")
+      EXECUTE_PROCESS(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/usr/local/bin/projectM-test-texture")
     ENDIF(CMAKE_INSTALL_DO_STRIP)
   ENDIF()
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
