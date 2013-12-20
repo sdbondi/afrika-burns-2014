@@ -645,6 +645,10 @@ void QProjectM_MainWindow::keyReleaseEvent ( QKeyEvent * e )
 			}
 
 			return;
+    case Qt::Key_Q:
+      close();
+      return;
+
 		default:
 			break;
 	}
