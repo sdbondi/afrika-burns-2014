@@ -1,5 +1,5 @@
 /**
- * projectM-qt -- Qt4 based projectM GUI 
+ * projectM-qt -- Qt4 based projectM GUI
  * Copyright (C)2003-2004 projectM Team
  *
  * This library is free software; you can redistribute it and/or
@@ -23,7 +23,11 @@
 #define QPROJECTM_WIDGET_HPP
 
 #include <iostream>
+#include <stdlib.h>
+
 #include "qprojectm.hpp"
+#include "prismatic/PrismaticInputAdapter.hpp"
+
 #include <QGLWidget>
 #include <QMutex>
 #include <QtDebug>
@@ -38,17 +42,22 @@ class QProjectMWidget : public QGLWidget
 		Q_OBJECT        // must include this if you use Qt signals/slots
 
 	public:
+    // Timeout before mouse cursor disappears (ms)
 		static const int MOUSE_VISIBLE_TIMEOUT_MS = 5000;
-		QProjectMWidget ( const std::string & config_file, QWidget * parent, QMutex * audioMutex = 0 )
+
+		QProjectMWidget ( const std::string & config_file, QWidget * parent, QMutex * audioMutex = 0)
 				: QGLWidget ( parent ), m_config_file ( config_file ), m_projectM ( 0 ), m_audioMutex ( audioMutex ), m_mouseTimer ( 0 )
 		{
+      // The type of prismatic input to use // "test"/"mouse"/"kinect"
+      static const std::string PRISMATIC_INPUT_TYPE = "test";
+      m_prismatic_input = PrismaticInputAdapter::Factory(PRISMATIC_INPUT_TYPE);
 
 			m_mouseTimer = new QTimer ( this );
 
 			QSettings settings("projectM", "qprojectM");
-			mouseHideTimeoutSeconds = 
+			mouseHideTimeoutSeconds =
 				settings.value("MouseHideOnTimeout", MOUSE_VISIBLE_TIMEOUT_MS/1000).toInt();
-			
+
 			if (mouseHideTimeoutSeconds > 0)
 				m_mouseTimer->start ( mouseHideTimeoutSeconds * 1000);
 
@@ -57,7 +66,14 @@ class QProjectMWidget : public QGLWidget
 
 		}
 
-		~QProjectMWidget() { destroyProjectM(); }
+		~QProjectMWidget() {
+      destroyProjectM();
+
+      if (m_prismatic_input != 0) {
+        m_prismatic_input->CleanUp();
+        delete(m_prismatic_input);
+      }
+    }
 
 
 
@@ -99,7 +115,6 @@ class QProjectMWidget : public QGLWidget
 			QApplication::restoreOverrideCursor();
 			if (mouseHideTimeoutSeconds > 0)
 				m_mouseTimer->start ( mouseHideTimeoutSeconds*1000 );
-
 		}
 
 		inline void leaveEvent ( QEvent * event )
@@ -170,6 +185,8 @@ class QProjectMWidget : public QGLWidget
 	private:
 		std::string m_config_file;
 		QProjectM * m_projectM;
+    PrismaticInputAdapter* m_prismatic_input;
+
 		void destroyProjectM()
 		{
 
@@ -211,12 +228,12 @@ class QProjectMWidget : public QGLWidget
 						pkey =  PROJECTM_K_R;
 					else
 						pkey =  PROJECTM_K_r;
-					break;				
+					break;
 				case Qt::Key_L:
 					pkey =  PROJECTM_K_l;
 					ignore = true;
 					break;
-				case Qt::Key_N:	
+				case Qt::Key_N:
 					if (e->modifiers() & Qt::ShiftModifier)
 						pkey =  PROJECTM_K_N;
 					else
@@ -255,9 +272,8 @@ class QProjectMWidget : public QGLWidget
 
 		void initializeGL()
 		{
-
-		        if (m_projectM == 0) {
-			    this->m_projectM = new QProjectM ( m_config_file );
+      if (m_projectM == 0) {
+			    this->m_projectM = new QProjectM ( m_config_file, m_prismatic_input );
 			    projectM_Initialized ( m_projectM );
 			}
 		}

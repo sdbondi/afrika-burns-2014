@@ -163,6 +163,8 @@ public:
   static bool writeConfig(const std::string & configFile, const Settings & settings);
 
 
+  /// Gets the currently active preset
+  std::auto_ptr<Preset> GetActivePreset();
   /// Sets preset iterator position to the passed in index
   void selectPresetPosition(unsigned int index);
 
@@ -214,13 +216,13 @@ public:
 
   /// Returns the preset name associated with a preset index
   std::string getPresetName ( unsigned int index ) const;
- 
+
   void changePresetName ( unsigned int index, std::string name );
 
   /// Returns the rating associated with a preset index
   int getPresetRating (unsigned int index, const PresetRatingType ratingType) const;
 
-  void changePresetRating (unsigned int index, int rating, const PresetRatingType ratingType);  
+  void changePresetRating (unsigned int index, int rating, const PresetRatingType ratingType);
 
   /// Returns the size of the play list
   unsigned int getPlaylistSize() const;

@@ -145,11 +145,11 @@ int main ( int argc, char*argv[] )
 	  devChooser.writeSettings();
 
 	if (mainWindow)
-        	mainWindow->unregisterSettingsAction(&pulseAction);
+    mainWindow->unregisterSettingsAction(&pulseAction);
 
 	pulseThread->cleanup();
-
 	delete(pulseThread);
+
 	return ret;
 }
 

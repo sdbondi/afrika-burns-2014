@@ -8,7 +8,6 @@ const double PipelineMerger::s(0.5);
 void PipelineMerger::mergePipelines(const Pipeline & a, const Pipeline & b, Pipeline & out, RenderItemMatcher::MatchResults & results, RenderItemMergeFunction & mergeFunction, float ratio)
 
 {
-
 	const double x = ( ratio - 0.5 ) * 20;
 	const double sigmoid = 1.0 / ( 1.0 + e - s * x );
 	const double invratio = 1.0 - ratio;

@@ -274,7 +274,8 @@ static void *thread_callback(void *prjm) {
     projectM *p = (projectM *)prjm;
 
     p->thread_func(prjm);
-    return NULL;}
+    return NULL;
+}
 
 
     void *projectM::thread_func(void *vptr_args)
