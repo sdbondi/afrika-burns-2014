@@ -24,9 +24,11 @@
 
 #include <iostream>
 #include <stdlib.h>
+#include <stdexcept>
 
 #include "qprojectm.hpp"
 #include "PrismaticInputAdapter.hpp"
+#include "PrismaticTestInputAdapter.hpp"
 
 #include <QGLWidget>
 #include <QMutex>
@@ -65,15 +67,9 @@ class QProjectMWidget : public QGLWidget
 		}
 
 		~QProjectMWidget() {
+      destroyPrismatic();
       destroyProjectM();
-
-      if (m_prismatic_input != 0) {
-        m_prismatic_input->CleanUp();
-        delete(m_prismatic_input);
-      }
     }
-
-
 
 		void resizeGL ( int w, int h )
 		{
@@ -199,6 +195,35 @@ class QProjectMWidget : public QGLWidget
 		QMutex * m_audioMutex;
 		QMutex m_presetSeizeMutex;
 		bool m_presetWasLocked;
+
+    PrismaticInputAdapter* createPrismaticInput(const pm_input_type_t adapter_type) {
+      qDebug() << "Initializing PrismaticInputAdapter";
+      switch (adapter_type) {
+        case PRISMATIC_TEST_INPUT:
+          return new PrismaticTestInputAdapter();
+
+        case PRISMATIC_MOUSE_INPUT:
+          throw std::runtime_error("Not implemented");
+
+        case PRISMATIC_KINECT_INPUT:
+          throw std::runtime_error("Not implemented");
+
+        default:
+          throw std::runtime_error("Invalid Prismatic Input Type");
+      }
+
+      return 0;
+    }
+
+    void destroyPrismatic()
+    {
+      if (m_prismatic_input != 0) {
+        qDebug() << "Cleaning up Prismatic";
+        m_prismatic_input->CleanUp();
+        delete(m_prismatic_input);
+        m_prismatic_input = 0;
+      }
+    }
 	protected:
 
 
@@ -271,7 +296,7 @@ class QProjectMWidget : public QGLWidget
 		void initializeGL()
 		{
       if (m_projectM == 0) {
-          m_prismatic_input = PrismaticInputAdapter::Factory(PRISMATIC_INPUT_TYPE);
+          m_prismatic_input = createPrismaticInput(PRISMATIC_INPUT_TYPE);
 
 			    this->m_projectM = new QProjectM ( m_config_file, m_prismatic_input );
 			    projectM_Initialized ( m_projectM );

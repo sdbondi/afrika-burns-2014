@@ -65,7 +65,6 @@ SET(projectM_SOURCES
   PresetFactoryManager.cpp
   # Prismatic
   PrismaticInputAdapter.cpp
-  PrismaticTestInputAdapter.cpp
 
   ${GLEW_SOURCES})
 

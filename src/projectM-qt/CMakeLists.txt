@@ -66,6 +66,9 @@ set(projectM-qt_SRCS
     qpreseteditordialog.hpp
     qprojectm.hpp
     qprojectmwidget.hpp
+
+    #Prismatic
+    PrismaticTestInputAdapter.cpp
 )
 
 
@@ -80,6 +83,9 @@ set(projectM-qt_MOC_HDRS
     qpreseteditordialog.hpp
     qprojectm.hpp
     qprojectmwidget.hpp
+
+    #Prismatic
+    PrismaticTestInputAdapter.hpp
 )
 
 set(projectM-qt_UIS
