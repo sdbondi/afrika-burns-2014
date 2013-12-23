@@ -1,5 +1,5 @@
 /**
- * projectM-qt -- Qt4 based projectM GUI 
+ * projectM-qt -- Qt4 based projectM GUI
  * Copyright (C)2003-2004 projectM Team
  *
  * This library is free software; you can redistribute it and/or
@@ -24,12 +24,14 @@
 #include "projectM.hpp"
 #include <QObject>
 
+#include "Prismatic/PrismaticInputAdapter.hpp"
+
 class QProjectM : public QObject, public projectM {
-	
+
 	Q_OBJECT
 
 	public:
-		QProjectM(const std::string & config_file):projectM(config_file, projectM::FLAG_DISABLE_PLAYLIST_LOAD) {}
+		QProjectM(const std::string & config_file, PrismaticInputAdapter* input_adapter = 0):projectM(config_file, projectM::FLAG_DISABLE_PLAYLIST_LOAD) {}
 
 		void presetSwitchedEvent(bool hardCut, unsigned int index) const {
 			presetSwitchedSignal(hardCut, index);

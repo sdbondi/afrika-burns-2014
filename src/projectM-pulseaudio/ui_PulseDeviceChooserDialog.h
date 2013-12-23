@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'PulseDeviceChooserDialog.ui'
 **
-** Created: Fri Dec 20 13:22:40 2013
+** Created: Mon Dec 23 23:11:49 2013
 **      by: Qt User Interface Compiler version 4.8.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!

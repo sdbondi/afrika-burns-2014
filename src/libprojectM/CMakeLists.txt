@@ -48,8 +48,23 @@ else(USE_NATIVE_GLEW)
  find_package (GLEW)
 endif(USE_NATIVE_GLEW)
 
-SET(projectM_SOURCES projectM.cpp PCM.cpp Preset.cpp fftsg.cpp KeyHandler.cpp
-timer.cpp wipemalloc.cpp PresetLoader.cpp  PresetChooser.cpp PipelineMerger.cpp ConfigFile.cpp  TimeKeeper.cpp PresetFactory.cpp PresetFactoryManager.cpp ${GLEW_SOURCES})
+SET(projectM_SOURCES
+  projectM.cpp
+  PCM.cpp
+  Preset.cpp
+  fftsg.cpp
+  KeyHandler.cpp
+  timer.cpp
+  wipemalloc.cpp
+  PresetLoader.cpp
+  PresetChooser.cpp
+  PipelineMerger.cpp
+  ConfigFile.cpp
+  TimeKeeper.cpp
+  PresetFactory.cpp
+  PresetFactoryManager.cpp
+  PrismaticInputAdapter.cpp
+  ${GLEW_SOURCES})
 
 if (MSVC)
 SET(projectM_SOURCES ${projectM_SOURCES} dlfcn.c win32-dirent.cpp)

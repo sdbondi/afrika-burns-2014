@@ -26,7 +26,7 @@
 #include <stdlib.h>
 
 #include "qprojectm.hpp"
-#include "prismatic/PrismaticInputAdapter.hpp"
+#include "PrismaticInputAdapter.hpp"
 
 #include <QGLWidget>
 #include <QMutex>
