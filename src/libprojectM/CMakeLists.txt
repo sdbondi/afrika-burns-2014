@@ -63,7 +63,10 @@ SET(projectM_SOURCES
   TimeKeeper.cpp
   PresetFactory.cpp
   PresetFactoryManager.cpp
+  # Prismatic
   PrismaticInputAdapter.cpp
+  PrismaticTestInputAdapter.cpp
+
   ${GLEW_SOURCES})
 
 if (MSVC)

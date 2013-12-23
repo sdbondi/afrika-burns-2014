@@ -42,16 +42,14 @@ class QProjectMWidget : public QGLWidget
 		Q_OBJECT        // must include this if you use Qt signals/slots
 
 	public:
+    // The type of prismatic input to use // "test"/"mouse"/"kinect"
+    static const pm_input_type_t PRISMATIC_INPUT_TYPE = PRISMATIC_TEST_INPUT;
     // Timeout before mouse cursor disappears (ms)
 		static const int MOUSE_VISIBLE_TIMEOUT_MS = 5000;
 
 		QProjectMWidget ( const std::string & config_file, QWidget * parent, QMutex * audioMutex = 0)
 				: QGLWidget ( parent ), m_config_file ( config_file ), m_projectM ( 0 ), m_audioMutex ( audioMutex ), m_mouseTimer ( 0 )
 		{
-      // The type of prismatic input to use // "test"/"mouse"/"kinect"
-      static const std::string PRISMATIC_INPUT_TYPE = "test";
-      m_prismatic_input = PrismaticInputAdapter::Factory(PRISMATIC_INPUT_TYPE);
-
 			m_mouseTimer = new QTimer ( this );
 
 			QSettings settings("projectM", "qprojectM");
@@ -273,6 +271,8 @@ class QProjectMWidget : public QGLWidget
 		void initializeGL()
 		{
       if (m_projectM == 0) {
+          m_prismatic_input = PrismaticInputAdapter::Factory(PRISMATIC_INPUT_TYPE);
+
 			    this->m_projectM = new QProjectM ( m_config_file, m_prismatic_input );
 			    projectM_Initialized ( m_projectM );
 			}

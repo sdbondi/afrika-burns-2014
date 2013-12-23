@@ -22,9 +22,9 @@
 #ifndef QPROJECTM_HPP
 #define QPROJECTM_HPP
 #include "projectM.hpp"
-#include <QObject>
+#include "PrismaticInputAdapter.hpp"
 
-#include "Prismatic/PrismaticInputAdapter.hpp"
+#include <QObject>
 
 class QProjectM : public QObject, public projectM {
 
