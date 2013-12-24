@@ -18,7 +18,9 @@ class PrismaticInputAdapter
     PrismaticInputAdapter();
     void CleanUp();
 
-    static PrismaticInputAdapter* Factory(const pm_input_type_t adapter_type);
+    virtual const int X() = 0;
+    virtual const int Y() = 0;
+    virtual const int Depth() = 0;
   private:
 
 };

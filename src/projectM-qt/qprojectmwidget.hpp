@@ -289,17 +289,17 @@ class QProjectMWidget : public QGLWidget
 			m_projectM->key_handler ( PROJECTM_KEYDOWN, pkey, modifier );
 			if ( ignore )
 				e->ignore();
-
-
 		}
 
 		void initializeGL()
 		{
       if (m_projectM == 0) {
+        if (m_prismatic_input == 0) {
           m_prismatic_input = createPrismaticInput(PRISMATIC_INPUT_TYPE);
+        }
 
-			    this->m_projectM = new QProjectM ( m_config_file, m_prismatic_input );
-			    projectM_Initialized ( m_projectM );
+        m_projectM = new QProjectM ( m_config_file, m_prismatic_input );
+        projectM_Initialized ( m_projectM );
 			}
 		}
 

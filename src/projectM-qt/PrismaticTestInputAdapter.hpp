@@ -9,5 +9,14 @@ class PrismaticTestInputAdapter: public PrismaticInputAdapter
 {
   public:
     PrismaticTestInputAdapter(): PrismaticInputAdapter() {};
+
+    const int X();
+    const int Y();
+    const int Depth();
+
+  private:
+    int x;
+    int y;
+    int depth;
 };
 #endif
