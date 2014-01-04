@@ -10,6 +10,7 @@ SET(SOIL_SOURCES
 SET(Renderer_SOURCES
 	FBO.cpp
 	MilkdropWaveform.cpp
+  InputWaveform.cpp
 	PerPixelMesh.cpp
 	Pipeline.cpp
 	Renderer.cpp

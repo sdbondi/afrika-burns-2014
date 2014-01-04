@@ -6,21 +6,26 @@
 #ifndef __PRISMATIC_INPUT_ADAPTER_HPP
 #define __PRISMATIC_INPUT_ADAPTER_HPP
 #include <stdint.h>
+#include <vector>
 
 typedef uint8_t pm_input_type_t;
 const pm_input_type_t PRISMATIC_TEST_INPUT = 0;
 const pm_input_type_t PRISMATIC_MOUSE_INPUT = 1;
 const pm_input_type_t PRISMATIC_KINECT_INPUT = 2;
 
+struct InputPoints {
+  float x;
+  float y;
+  float z;
+};
+
 class PrismaticInputAdapter
 {
   public:
     PrismaticInputAdapter();
-    void CleanUp();
+    virtual ~PrismaticInputAdapter();
 
-    virtual const int X() = 0;
-    virtual const int Y() = 0;
-    virtual const int Depth() = 0;
+    virtual std::vector<InputPoints> GetPoints() = 0;
   private:
 
 };

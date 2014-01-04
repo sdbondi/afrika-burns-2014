@@ -3,12 +3,6 @@
 #include <iostream>
 
 // Constructor
-PrismaticInputAdapter::PrismaticInputAdapter()
-{
+PrismaticInputAdapter::PrismaticInputAdapter() {}
 
-}
-
-void PrismaticInputAdapter::CleanUp()
-{
-  std::cout << "Cleaning up PrismaticInputAdapter";
-}
+PrismaticInputAdapter::~PrismaticInputAdapter() {}

@@ -7,5 +7,7 @@
 
 #include "PipelineContext.hpp"
 
+#include <assert.h>
+
 PipelineContext::PipelineContext() {}
 PipelineContext::~PipelineContext() {}

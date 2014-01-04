@@ -47,7 +47,7 @@ public:
 	float modOpacityStart;
 	float modOpacityEnd;
 
-private:
+protected:
 	float temp_a;
 	float rot;
 	float aspectScale;
@@ -59,7 +59,8 @@ private:
 
 	void MaximizeColors(RenderContext &context);
 	void ModulateOpacityByVolume(RenderContext &context);
-	void WaveformMath(RenderContext &context);
+  virtual void DrawWave(RenderContext &context);
+	virtual void WaveformMath(RenderContext &context);
 
 };
 #endif /* MILKDROPWAVEFORM_HPP_ */

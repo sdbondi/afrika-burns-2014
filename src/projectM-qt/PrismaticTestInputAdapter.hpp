@@ -10,13 +10,11 @@ class PrismaticTestInputAdapter: public PrismaticInputAdapter
   public:
     PrismaticTestInputAdapter(): PrismaticInputAdapter() {};
 
-    const int X();
-    const int Y();
-    const int Depth();
+    virtual std::vector<InputPoints> GetPoints();
 
   private:
-    int x;
-    int y;
-    int depth;
+    float x;
+    float y;
+    float z;
 };
 #endif

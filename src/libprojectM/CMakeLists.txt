@@ -63,7 +63,7 @@ SET(projectM_SOURCES
   TimeKeeper.cpp
   PresetFactory.cpp
   PresetFactoryManager.cpp
-  # Prismatic
+
   PrismaticInputAdapter.cpp
 
   ${GLEW_SOURCES})

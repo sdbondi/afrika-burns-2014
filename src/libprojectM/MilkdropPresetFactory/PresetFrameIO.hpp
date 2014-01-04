@@ -2,6 +2,7 @@
 #define PRESET_FRAME_IO_HPP
 #include <vector>
 #include "Renderer/MilkdropWaveform.hpp"
+#include "Renderer/InputWaveform.hpp"
 #include "Renderer/Pipeline.hpp"
 #include "Renderer/Filters.hpp"
 #include "CustomShape.hpp"
@@ -43,13 +44,17 @@ public:
     float **origx;  //original mesh
     float **origy;
 
+    // Added by Prismatic!
+    float input_x; // X coordinate for input 1
+    float input_y; // Y coordinate for input 1
+
     void resetMesh();
 
     ~PresetInputs();
     PresetInputs();
 
     /// Initializes this preset inputs given a mesh size.
-    /// \param gx the width of the mesh 
+    /// \param gx the width of the mesh
     /// \param gy the height of the mesh
     /// \note This must be called before reading values from this class
     void Initialize(int gx, int gy);
@@ -98,6 +103,8 @@ public:
     Border border;
     MotionVectors mv;
     DarkenCenter darkenCenter;
+
+    InputWaveform input_wave;
 
     Brighten brighten;
     Darken darken;

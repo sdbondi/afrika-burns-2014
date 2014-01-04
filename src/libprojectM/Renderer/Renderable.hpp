@@ -3,6 +3,7 @@
 #include <vector>
 #include <typeinfo>
 #include "TextureManager.hpp"
+#include "PrismaticInputAdapter.hpp"
 class BeatDetect;
 
 
@@ -14,6 +15,7 @@ public:
 	float aspectRatio;
 	bool aspectCorrect;
 	BeatDetect *beatDetect;
+  PrismaticInputAdapter* prismaticInput;
 	TextureManager *textureManager;
 
 	RenderContext();

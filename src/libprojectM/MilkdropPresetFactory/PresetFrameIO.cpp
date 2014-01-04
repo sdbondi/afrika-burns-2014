@@ -10,31 +10,30 @@ PresetInputs::PresetInputs() : PipelineContext()
 {
 }
 
-void PresetInputs::update(const BeatDetect & music, const PipelineContext & context) {
+void PresetInputs::update(const BeatDetect & music, const PipelineContext & context)
+{
+  // Reflect new values from the beat detection unit
+  this->bass = music.bass;
+  this->mid = music.mid;
+  this->treb = music.treb;
+  this->bass_att = music.bass_att;
+  this->mid_att = music.mid_att;
+  this->treb_att = music.treb_att;
 
-    // Reflect new values form the beat detection unit
-    this->bass = music.bass;
-    this->mid = music.mid;
-    this->treb = music.treb;
-    this->bass_att = music.bass_att;
-    this->mid_att = music.mid_att;
-    this->treb_att = music.treb_att;
+  // Reflect new values from the pipeline context
+  this->fps = context.fps;
+  this->time = context.time;
 
-    // Reflect new values from the pipeline context
-    this->fps = context.fps;
-    this->time = context.time;
-
-    this->frame = context.frame;
-    this->progress = context.progress;
+  this->frame = context.frame;
+  this->progress = context.progress;
 }
 
 void PresetInputs::Initialize ( int gx, int gy )
 {
 	int x, y;
 
-	this->gx =gx;
-	this->gy= gy;
-
+	this->gx = gx;
+	this->gy = gy;
 
 	/// @bug no clue if this block belongs here
 	// ***
@@ -100,10 +99,70 @@ void PresetInputs::Initialize ( int gx, int gy )
 		}
 	}
 
+}
 
+PresetInputs::~PresetInputs()
+{
+  for ( int x = 0; x < this->gx; x++ )
+  {
+    free ( this->origtheta[x] );
+    free ( this->origrad[x] );
+    free ( this->origx[x] );
+    free ( this->origy[x] );
+
+    free ( this->x_mesh[x] );
+    free ( this->y_mesh[x] );
+    free ( this->rad_mesh[x] );
+    free ( this->theta_mesh[x] );
+  }
+
+  free ( this->origx );
+  free ( this->origy );
+  free ( this->origrad );
+  free ( this->origtheta );
+
+  free ( this->x_mesh );
+  free ( this->y_mesh );
+  free ( this->rad_mesh );
+  free ( this->theta_mesh );
+
+  this->origx = NULL;
+  this->origy = NULL;
+  this->origtheta = NULL;
+  this->origrad = NULL;
+
+  this->x_mesh = NULL;
+  this->y_mesh = NULL;
+  this->rad_mesh = NULL;
+  this->theta_mesh = NULL;
+}
+
+
+void PresetInputs::resetMesh()
+{
+  int x,y;
+
+  assert ( x_mesh );
+  assert ( y_mesh );
+  assert ( rad_mesh );
+  assert ( theta_mesh );
+
+  for ( x=0;x<this->gx;x++ )
+  {
+    for ( y=0;y<this->gy;y++ )
+    {
+      x_mesh[x][y]=this->origx[x][y];
+      y_mesh[x][y]=this->origy[x][y];
+      rad_mesh[x][y]=this->origrad[x][y];
+      theta_mesh[x][y]=this->origtheta[x][y];
+    }
+  }
 
 }
 
+//////////////////////////////////////////////////
+// OUTPUTS                                      //
+//////////////////////////////////////////////////
 PresetOutputs::PresetOutputs() : Pipeline()
 {}
 
@@ -129,20 +188,19 @@ PresetOutputs::~PresetOutputs()
 		free(this->rad_mesh[x]);
 	}
 
-		free(this->rad_mesh);
-		free(this->sx_mesh);
-		free(this->sy_mesh);
-		free(this->dy_mesh);
-		free(this->dx_mesh);
-		free(this->cy_mesh);
-		free(this->cx_mesh);
-		free(this->warp_mesh);
-		free(this->zoom_mesh);
-		free(this->zoomexp_mesh);
-		free(this->rot_mesh);
-		free(this->orig_x);
-		free(this->orig_y);
-
+  free(this->rad_mesh);
+  free(this->sx_mesh);
+  free(this->sy_mesh);
+  free(this->dy_mesh);
+  free(this->dx_mesh);
+  free(this->cy_mesh);
+  free(this->cx_mesh);
+  free(this->warp_mesh);
+  free(this->zoom_mesh);
+  free(this->zoomexp_mesh);
+  free(this->rot_mesh);
+  free(this->orig_x);
+  free(this->orig_y);
 }
 
 void PresetOutputs::Render(const BeatDetect &music, const PipelineContext &context)
@@ -165,8 +223,10 @@ void PresetOutputs::Render(const BeatDetect &music, const PipelineContext &conte
 				if( (*pos)->enabled==1)	drawables.push_back((*pos));
 			}
 
-    	drawables.push_back(&wave);
-	if(bDarkenCenter==1) drawables.push_back(&darkenCenter);
+  drawables.push_back(&wave);
+  drawables.push_back(&input_wave);
+
+	if (bDarkenCenter==1) drawables.push_back(&darkenCenter);
 	drawables.push_back(&border);
 
 	compositeDrawables.clear();
@@ -188,8 +248,8 @@ void PresetOutputs::Render(const BeatDetect &music, const PipelineContext &conte
 
 void PresetOutputs::PerPixelMath(const PipelineContext &context)
 {
+  int x, y;
 
-	int x, y;
 	float fZoom2, fZoom2Inv;
 
 	for (x = 0; x < gx; x++)
@@ -276,7 +336,7 @@ void PresetOutputs::Initialize ( int gx, int gy )
 
 	assert(gx > 0);
 	this->gx = gx;
-	this->gy= gy;
+	this->gy = gy;
 
 	staticPerPixel = true;
 	setStaticPerPixel(gx,gy);
@@ -360,84 +420,25 @@ void PresetOutputs::Initialize ( int gx, int gy )
 		this->orig_y[x] = (float *) wipemalloc(gy * sizeof(float));
 	}
 
-		//initialize reference grid values
-		for (x = 0; x < gx; x++)
-		{
-			for (int y = 0; y < gy; y++)
-			{
-				float origx = x / (float) (gx - 1);
-				float origy = -((y / (float) (gy - 1)) - 1);
+  //initialize reference grid values
+  for (x = 0; x < gx; x++)
+  {
+    for (int y = 0; y < gy; y++)
+    {
+      float origx = x / (float) (gx - 1);
+      float origy = -((y / (float) (gy - 1)) - 1);
 
-				rad_mesh[x][y]=hypot ( ( origx-.5 ) *2, ( origy-.5 ) *2 ) * .7071067;
-				orig_x[x][y] = (origx - .5) * 2;
-				orig_y[x][y] = (origy - .5) * 2;
-			}
-		}
+      rad_mesh[x][y]=hypot ( ( origx-.5 ) *2, ( origy-.5 ) *2 ) * .7071067;
+      orig_x[x][y] = (origx - .5) * 2;
+      orig_y[x][y] = (origy - .5) * 2;
+    }
+  }
+
+  // TODO Allow these values to be set by preset.
+  input_wave.r = 0.0;
+  input_wave.g = 1.0;
+  input_wave.b = 0.0;
 }
-
-PresetInputs::~PresetInputs()
-{
-	for ( int x = 0; x < this->gx; x++ )
-	{
-
-
-		free ( this->origtheta[x] );
-		free ( this->origrad[x] );
-		free ( this->origx[x] );
-		free ( this->origy[x] );
-
-		free ( this->x_mesh[x] );
-		free ( this->y_mesh[x] );
-		free ( this->rad_mesh[x] );
-		free ( this->theta_mesh[x] );
-
-	}
-
-
-	free ( this->origx );
-	free ( this->origy );
-	free ( this->origrad );
-	free ( this->origtheta );
-
-	free ( this->x_mesh );
-	free ( this->y_mesh );
-	free ( this->rad_mesh );
-	free ( this->theta_mesh );
-
-	this->origx = NULL;
-	this->origy = NULL;
-	this->origtheta = NULL;
-	this->origrad = NULL;
-
-	this->x_mesh = NULL;
-	this->y_mesh = NULL;
-	this->rad_mesh = NULL;
-	this->theta_mesh = NULL;
-}
-
-
-void PresetInputs::resetMesh()
-{
-	int x,y;
-
-	assert ( x_mesh );
-	assert ( y_mesh );
-	assert ( rad_mesh );
-	assert ( theta_mesh );
-
-	for ( x=0;x<this->gx;x++ )
-	{
-		for ( y=0;y<this->gy;y++ )
-		{
-			x_mesh[x][y]=this->origx[x][y];
-			y_mesh[x][y]=this->origy[x][y];
-			rad_mesh[x][y]=this->origrad[x][y];
-			theta_mesh[x][y]=this->origtheta[x][y];
-		}
-	}
-
-}
-
 
 #ifdef USE_MERGE_PRESET_CODE
 void PresetMerger::MergePresets(PresetOutputs & A, PresetOutputs & B, double ratio, int gx, int gy)
@@ -559,17 +560,17 @@ double invratio = 1.0 - ratio;
   //Switch bools and discrete values halfway.  Maybe we should do some interesting stuff here.
 
   if (ratio > 0.5)
-    {
-      A.videoEcho.orientation = B.videoEcho.orientation;
-      A.textureWrap = B.textureWrap;
-      A.bDarkenCenter = B.bDarkenCenter;
-      A.bRedBlueStereo = B.bRedBlueStereo;
-      A.bBrighten = B.bBrighten;
-      A.bDarken = B.bDarken;
-      A.bSolarize = B.bSolarize;
-      A.bInvert = B.bInvert;
-      A.bMotionVectorsOn = B.bMotionVectorsOn;
-    }
+  {
+    A.videoEcho.orientation = B.videoEcho.orientation;
+    A.textureWrap = B.textureWrap;
+    A.bDarkenCenter = B.bDarkenCenter;
+    A.bRedBlueStereo = B.bRedBlueStereo;
+    A.bBrighten = B.bBrighten;
+    A.bDarken = B.bDarken;
+    A.bSolarize = B.bSolarize;
+    A.bInvert = B.bInvert;
+    A.bMotionVectorsOn = B.bMotionVectorsOn;
+  }
 
   return;
 }

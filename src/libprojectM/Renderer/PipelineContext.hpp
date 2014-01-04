@@ -12,11 +12,11 @@ class PipelineContext
 {
 public:
 	int fps;
-    	float time;
+  float time;
 	int   frame;
 	float progress;
 
-	PipelineContext();
+  PipelineContext();
 	virtual ~PipelineContext();
 };
 

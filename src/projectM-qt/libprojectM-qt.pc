@@ -1,9 +1,9 @@
-prefix=/usr
-exec_prefix=/usr
+prefix=/usr/local
+exec_prefix=/usr/local
 libdir=${exec_prefix}/lib
-includedir=/usr/include
-pkgdatadir=/usr/share/projectM-qt
-sysconfdir=/usr/share/projectM-qt
+includedir=/usr/local/include
+pkgdatadir=/usr/local/share/projectM-qt
+sysconfdir=/usr/local/share/projectM-qt
 
 Name: libprojectM-qt
 Version: 1.2.0

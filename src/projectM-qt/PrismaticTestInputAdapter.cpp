@@ -1,17 +1,17 @@
 #include "PrismaticTestInputAdapter.hpp"
 
-const int PrismaticTestInputAdapter::X()
+std::vector<InputPoints> PrismaticTestInputAdapter::GetPoints()
 {
-  return x++;
-}
+  x+=0.01;
+  y+=0.01;
+  if (z == 1.0) { z=0.5; } else { z=1.0; }
+  std::vector<InputPoints> result;
 
-const int PrismaticTestInputAdapter::Y()
-{
-  return y++;
-}
+  InputPoints p;
+  p.x = x;
+  p.y = y;
+  p.z = z;
+  result.push_back(p);
 
-const int PrismaticTestInputAdapter::Depth()
-{
-  return depth++;
+  return result;
 }
-

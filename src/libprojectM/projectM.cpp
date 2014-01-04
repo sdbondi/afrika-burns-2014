@@ -116,17 +116,20 @@ void projectM::projectM_resetTextures()
 }
 
 
-projectM::projectM ( std::string config_file, int flags) :
+projectM::projectM ( std::string config_file, int flags, PrismaticInputAdapter* prismaticInput) :
 beatDetect ( 0 ), renderer ( 0 ),  _pcm(0), m_presetPos(0), m_flags(flags), _pipelineContext(new PipelineContext()), _pipelineContext2(new PipelineContext())
 {
     readConfig(config_file);
     projectM_reset();
     projectM_resetGL(_settings.windowWidth, _settings.windowHeight);
 
+    if (prismaticInput != 0) {
+      this->renderer->SetPrismaticInput(prismaticInput);
+    }
 }
 
 projectM::projectM(Settings settings, int flags):
-beatDetect ( 0 ), renderer ( 0 ),  _pcm(0), m_presetPos(0), m_flags(flags), _pipelineContext(new PipelineContext()), _pipelineContext2(new PipelineContext())
+beatDetect ( 0 ), renderer ( 0 ),  _pcm(0), m_presetPos(0), m_flags(flags), _pipelineContext(new PipelineContext()), _pipelineContext2(new PipelineContext()), prismaticInput(0)
 {
     readSettings(settings);
     projectM_reset();
@@ -220,10 +223,15 @@ void projectM::readConfig (const std::string & configFile )
     _settings.softCutRatingsEnabled =
 	config.read<float> ( "Soft Cut Ratings Enabled", false);
 
-    projectM_init ( _settings.meshX, _settings.meshY, _settings.fps,
-                    _settings.textureSize, _settings.windowWidth,_settings.windowHeight);
+    projectM_init(
+      _settings.meshX, _settings.meshY,
+      _settings.fps,
+      _settings.textureSize,
+      _settings.windowWidth, _settings.windowHeight
+    );
 
-                    _settings.beatSensitivity = beatDetect->beat_sensitivity = config.read<float> ( "Hard Cut Sensitivity", 10.0 );
+    _settings.beatSensitivity = beatDetect->beat_sensitivity =
+      config.read<float> ( "Hard Cut Sensitivity", 10.0 );
 
 
 	if ( config.read ( "Aspect Correction", true ) )
@@ -243,29 +251,30 @@ void projectM::readConfig (const std::string & configFile )
 
 void projectM::readSettings (const Settings & settings )
 {
-    _settings.meshX = settings.meshX;
-    _settings.meshY = settings.meshY;
-    _settings.textureSize = settings.textureSize;
-    _settings.fps = settings.fps;
-    _settings.windowWidth  = settings.windowWidth;
-    _settings.windowHeight = settings.windowHeight;
-    _settings.smoothPresetDuration = settings.smoothPresetDuration;
-    _settings.presetDuration = settings.presetDuration;
-    _settings.softCutRatingsEnabled = settings.softCutRatingsEnabled;
+  _settings.meshX = settings.meshX;
+  _settings.meshY = settings.meshY;
+  _settings.textureSize = settings.textureSize;
+  _settings.fps = settings.fps;
+  _settings.windowWidth  = settings.windowWidth;
+  _settings.windowHeight = settings.windowHeight;
+  _settings.smoothPresetDuration = settings.smoothPresetDuration;
+  _settings.presetDuration = settings.presetDuration;
+  _settings.softCutRatingsEnabled = settings.softCutRatingsEnabled;
 
-    _settings.presetURL = settings.presetURL;
-    _settings.titleFontURL = settings.titleFontURL;
-    _settings.menuFontURL =  settings.menuFontURL;
-    _settings.shuffleEnabled = settings.shuffleEnabled;
+  _settings.presetURL = settings.presetURL;
+  _settings.titleFontURL = settings.titleFontURL;
+  _settings.menuFontURL =  settings.menuFontURL;
+  _settings.shuffleEnabled = settings.shuffleEnabled;
 
-    _settings.easterEgg = settings.easterEgg;
+  _settings.easterEgg = settings.easterEgg;
 
-    projectM_init ( _settings.meshX, _settings.meshY, _settings.fps,
-                    _settings.textureSize, _settings.windowWidth,_settings.windowHeight);
+  projectM_init(
+      _settings.meshX, _settings.meshY, _settings.fps,
+      _settings.textureSize, _settings.windowWidth,_settings.windowHeight
+      );
 
-
-                    _settings.beatSensitivity = settings.beatSensitivity;
-                    _settings.aspectCorrection = settings.aspectCorrection;
+  _settings.beatSensitivity = settings.beatSensitivity;
+  _settings.aspectCorrection = settings.aspectCorrection;
 
 }
 
@@ -497,7 +506,7 @@ static void *thread_callback(void *prjm) {
             mspf= ( int ) ( 1000.0/ ( float ) _settings.fps );
         else mspf = 0;
 
-        this->renderer = new Renderer ( width, height, gx, gy, texsize,  beatDetect, settings().presetURL, settings().titleFontURL, settings().menuFontURL );
+        this->renderer = new Renderer ( width, height, gx, gy, texsize,  beatDetect, settings().presetURL, settings().titleFontURL, settings().menuFontURL);
 
         running = true;
 
@@ -560,7 +569,6 @@ static void *thread_callback(void *prjm) {
             renderer->drawtitle=1;
         }
     }
-
 
     int projectM::initPresetTools(int gx, int gy)
     {

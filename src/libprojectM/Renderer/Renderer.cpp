@@ -15,7 +15,7 @@
 class Preset;
 
 Renderer::Renderer(int width, int height, int gx, int gy, int texsize, BeatDetect *beatDetect, std::string _presetURL,
-		std::string _titlefontURL, std::string _menufontURL) :
+		std::string _titlefontURL, std::string _menufontURL, PrismaticInputAdapter* prismaticInput) :
 	title_fontURL(_titlefontURL), menu_fontURL(_menufontURL), presetURL(_presetURL), m_presetName("None"), vw(width),
 			vh(height), texsize(texsize), mesh(gx, gy)
 {
@@ -44,6 +44,7 @@ Renderer::Renderer(int width, int height, int gx, int gy, int texsize, BeatDetec
 	this->renderTarget = new RenderTarget(texsize, width, height);
 	this->textureManager = new TextureManager(presetURL);
 	this->beatDetect = beatDetect;
+  this->prismaticInput = prismaticInput;
 
 #ifdef USE_FTGL
 	/** Load the standard fonts if they do exist */
@@ -123,6 +124,13 @@ void Renderer::SetPipeline(Pipeline &pipeline)
 #endif
 }
 
+void Renderer::SetPrismaticInput(PrismaticInputAdapter* prismaticInput)
+{
+  assert(prismaticInput != 0);
+  assert(this->prismaticInput == 0);
+  this->prismaticInput = prismaticInput;
+}
+
 void Renderer::ResetTextures()
 {
 	textureManager->Clear();
@@ -177,6 +185,7 @@ void Renderer::RenderItems(const Pipeline &pipeline, const PipelineContext &pipe
 	renderContext.aspectRatio = aspect;
 	renderContext.textureManager = textureManager;
 	renderContext.beatDetect = beatDetect;
+	renderContext.prismaticInput = prismaticInput;
 
 	for (std::vector<RenderItem*>::const_iterator pos = pipeline.drawables.begin(); pos != pipeline.drawables.end(); ++pos)
     {

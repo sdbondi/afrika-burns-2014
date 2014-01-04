@@ -219,7 +219,6 @@ class QProjectMWidget : public QGLWidget
     {
       if (m_prismatic_input != 0) {
         qDebug() << "Cleaning up Prismatic";
-        m_prismatic_input->CleanUp();
         delete(m_prismatic_input);
         m_prismatic_input = 0;
       }

@@ -19,6 +19,8 @@
 #endif
 #endif
 
+#include "PrismaticInputAdapter.hpp"
+
 #ifdef USE_FTGL
 #ifdef WIN32
 #include <ftgl.h>
@@ -63,7 +65,7 @@ public:
   int texsize;
 
 
-  Renderer( int width, int height, int gx, int gy, int texsize,  BeatDetect *beatDetect, std::string presetURL, std::string title_fontURL, std::string menu_fontURL);
+  Renderer( int width, int height, int gx, int gy, int texsize,  BeatDetect *beatDetect, std::string presetURL, std::string title_fontURL, std::string menu_fontURL, PrismaticInputAdapter* prismaticInput = 0);
   ~Renderer();
 
   void RenderFrame(const Pipeline &pipeline, const PipelineContext &pipelineContext);
@@ -71,8 +73,9 @@ public:
   void reset(int w, int h);
   GLuint initRenderToTexture();
 
-
   void SetPipeline(Pipeline &pipeline);
+
+  void SetPrismaticInput(PrismaticInputAdapter* prismaticInput);
 
   void setPresetName(const std::string& theValue)
   {
@@ -89,6 +92,7 @@ private:
 	PerPixelMesh mesh;
   RenderTarget *renderTarget;
   BeatDetect *beatDetect;
+  PrismaticInputAdapter* prismaticInput;
   TextureManager *textureManager;
   static Pipeline* currentPipe;
   RenderContext renderContext;

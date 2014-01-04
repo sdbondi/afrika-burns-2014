@@ -64,6 +64,7 @@
 class PipelineContext;
 #include "PCM.hpp"
 class BeatDetect;
+class PrismaticInputAdapter;
 class PCM;
 class Func;
 class Renderer;
@@ -75,6 +76,7 @@ class TimeKeeper;
 class Pipeline;
 class RenderItemMatcher;
 class MasterRenderItemMerge;
+class PrismaticInputAdapter;
 
 #include "Common.hpp"
 
@@ -137,7 +139,7 @@ public:
 	bool softCutRatingsEnabled;
     };
 
-  projectM(std::string config_file, int flags = FLAG_NONE);
+  projectM(std::string config_file, int flags = FLAG_NONE, PrismaticInputAdapter* prismaticInput = 0);
   projectM(Settings settings, int flags = FLAG_NONE);
 
   //DLLEXPORT projectM(int gx, int gy, int fps, int texsize, int width, int height,std::string preset_url,std::string title_fonturl, std::string title_menuurl);
@@ -236,7 +238,6 @@ public:
 	/// idea@ call a virtualfunction shuffleChanged()
   }
 
-
   inline bool isShuffleEnabled() const
   {
 	return _settings.shuffleEnabled;
@@ -265,6 +266,7 @@ private:
   PCM * _pcm;
   double sampledPresetDuration();
   BeatDetect * beatDetect;
+  PrismaticInputAdapter* prismaticInput;
   Renderer *renderer;
   PipelineContext * _pipelineContext;
   PipelineContext * _pipelineContext2;
