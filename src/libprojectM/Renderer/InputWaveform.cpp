@@ -15,6 +15,8 @@
 #endif
 
 #include <cmath>
+#include <assert.h>
+#include <stdio.h>
 
 #include "InputWaveform.hpp"
 #include "PrismaticInputAdapter.hpp"
@@ -23,39 +25,61 @@
 
 InputWaveform::InputWaveform(): MilkdropWaveform() {}
 
+void InputWaveform::Draw(RenderContext &context)
+{
+  // Only draw this if we have prismatic input
+  if (context.prismaticInput != 0)
+  {
+    MilkdropWaveform::Draw(context);
+  }
+}
+
 void InputWaveform::WaveformMath(RenderContext &context)
 {
   PrismaticInputAdapter* input = context.prismaticInput;
+  assert(input != 0);
 
-  // draw nothing if no prismatic input
-  if (input == 0) { return; }
-  // Seg fault!
   std::vector<PrismaticInputAdapter::InputPoint> points = input->GetPoints();
+  size_t p_size = points.size();
 
-  // std::cout << (points != 0 ? "1" : "0")<< "\n";
+  // No inputs, do nothing
+  if (p_size == 0) { return; }
+  else if (p_size == 1) {
+    // Draw a blob at the input point
+    mode = RadialBlob;
+    PrismaticInputAdapter::InputPoint* p = &points[0];
+
+    aspectScale = p->z*0.3f;
+    x = p->x;
+    y = p->y;
+    // printf("%f, %f \n", x, y);
+    MilkdropWaveform::WaveformMath(context);
+    return;
+  }
 
   int i;
-  float wave_x_temp=0;
-  float wave_y_temp=0;
 
-  loop = true;
-  rot = 0.5;
+  loop = false;
+  rot = -mystery*90;
   aspectScale = 1.0;
 
-  wave_x_temp=-2*0.4142*(fabs(fabs(mystery)-.5)-.5);
+  samples = 512-32;//context.beatDetect->pcm->numsamples;
 
-  rot = -mystery*90;
-  aspectScale = 1.0+wave_x_temp;
-  wave_x_temp=-1*(x-1.0);
-  samples = 1 ? 512-32 : context.beatDetect->pcm->numsamples;
+  PrismaticInputAdapter::InputPoint p1 = {0.5f,0.5f,0};
+  PrismaticInputAdapter::InputPoint p2 = {0.5f,0.8f,0};
 
-  for ( int i=0;i < samples;i++)
+  float grad = (p2.x == p1.x) ? 1.0f : (p2.y - p1.y) / (p2.x - p1.x);
+  float dist = sqrt(pow(p2.x-p1.x, 2) + pow(p2.y - p1.y, 2));
+  float incr = dist/(float)samples;
+
+  printf("%f, %f \n", dist, grad);
+  float temp_x = p1.x;
+  for (i = 0;i < samples;i++)
   {
+    temp_x += incr;
+    float temp_y = grad*temp_x+grad*p1.x-p1.y;
 
-    wavearray[i][0]= i / (float)  samples;
-    wavearray[i][1]=context.beatDetect->pcm->pcmdataR[i]*.04*scale+wave_x_temp;
-
-    // std::cout << wavearray[i][0] << ", y:" << wavearray[i][1] << "\n";
+    wavearray[i][0] = temp_x;
+    wavearray[i][1] = temp_y;// + context.beatDetect->pcm->pcmdataR[i]*.04*scale;
   }
-  //	  printf("%f %f\n",renderTarget->texsize*wave_y_temp,wave_y_temp);
 }

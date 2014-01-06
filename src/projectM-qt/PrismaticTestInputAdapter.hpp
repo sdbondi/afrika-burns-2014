@@ -8,7 +8,7 @@
 class PrismaticTestInputAdapter: public PrismaticInputAdapter
 {
   public:
-    PrismaticTestInputAdapter(): PrismaticInputAdapter() {};
+    PrismaticTestInputAdapter();
 
     virtual std::vector<PrismaticInputAdapter::InputPoint> GetPoints();
 
@@ -16,5 +16,7 @@ class PrismaticTestInputAdapter: public PrismaticInputAdapter
     float x;
     float y;
     float z;
+
+    float dirX, dirY;
 };
 #endif

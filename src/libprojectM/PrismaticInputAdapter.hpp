@@ -26,7 +26,5 @@ class PrismaticInputAdapter
     virtual ~PrismaticInputAdapter();
 
     virtual std::vector<InputPoint> GetPoints() = 0;
-  private:
-
 };
 #endif

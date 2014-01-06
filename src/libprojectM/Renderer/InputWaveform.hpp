@@ -14,6 +14,7 @@ class InputWaveform : public MilkdropWaveform
 public:
 	InputWaveform();
 
-  void WaveformMath(RenderContext &context);
+  virtual void Draw(RenderContext &context);
+  virtual void WaveformMath(RenderContext &context);
 };
 #endif /* INPUTWAVEFORM_HPP_ */
