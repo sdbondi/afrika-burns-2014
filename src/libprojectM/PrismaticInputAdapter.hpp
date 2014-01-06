@@ -13,19 +13,19 @@ const pm_input_type_t PRISMATIC_TEST_INPUT = 0;
 const pm_input_type_t PRISMATIC_MOUSE_INPUT = 1;
 const pm_input_type_t PRISMATIC_KINECT_INPUT = 2;
 
-struct InputPoints {
-  float x;
-  float y;
-  float z;
-};
-
 class PrismaticInputAdapter
 {
   public:
+    struct InputPoint {
+      float x;
+      float y;
+      float z;
+    };
+
     PrismaticInputAdapter();
     virtual ~PrismaticInputAdapter();
 
-    virtual std::vector<InputPoints> GetPoints() = 0;
+    virtual std::vector<InputPoint> GetPoints() = 0;
   private:
 
 };

@@ -29,8 +29,10 @@ void InputWaveform::WaveformMath(RenderContext &context)
 
   // draw nothing if no prismatic input
   if (input == 0) { return; }
+  // Seg fault!
+  std::vector<PrismaticInputAdapter::InputPoint> points = input->GetPoints();
 
-  // std::cout << input->GetPoints()[0].x << "\n";
+  // std::cout << (points != 0 ? "1" : "0")<< "\n";
 
   int i;
   float wave_x_temp=0;
