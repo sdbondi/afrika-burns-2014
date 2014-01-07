@@ -11,6 +11,7 @@ class PrismaticTestInputAdapter: public PrismaticInputAdapter
     PrismaticTestInputAdapter();
 
     virtual std::vector<PrismaticInputAdapter::InputPoint> GetPoints();
+    virtual const pm_input_type_t input_type() { return PRISMATIC_TEST_INPUT; }
 
   private:
     float x;

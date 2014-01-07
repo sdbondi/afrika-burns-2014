@@ -52,8 +52,8 @@ inline void InputWaveform::blobMath(RenderContext &context, PrismaticInputAdapte
     theta = i/(float)samples*2*M_PI + beatDetect->pcm->pcmdataL[i+32] + t*2.3;
     r = 0.06 + 0.1*beatDetect->pcm->pcmdataR[i];
 
-    wavearray[i][0]=x - r*cos(theta);
-    wavearray[i][1]=y - r*sin(theta);
+    wavearray[i][0] = x - r*cos(theta);
+    wavearray[i][1] = y - r*sin(theta);
   }
 }
 
