@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'qprojectmwidget.hpp'
 **
-** Created: Mon Jan 6 11:04:18 2014
+** Created: Tue Jan 7 10:04:17 2014
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.4)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_QProjectMWidget[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-      12,   14, // methods
+      13,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -44,7 +44,8 @@ static const uint qt_meta_data_QProjectMWidget[] = {
      259,  253,   16,   16, 0x0a,
      278,  253,   16,   16, 0x0a,
      301,  153,   16,   16, 0x0a,
-     331,   16,   16,   16, 0x08,
+     331,  153,   16,   16, 0x0a,
+     363,   16,   16,   16, 0x08,
 
        0        // eod
 };
@@ -58,7 +59,9 @@ static const char qt_meta_stringdata_QProjectMWidget[] = {
     "leaveEvent(QEvent*)\0resetProjectM()\0"
     "mutex\0setAudioMutex(QMutex*)\0state\0"
     "setPresetLock(int)\0setShuffleEnabled(int)\0"
-    "mousePressEvent(QMouseEvent*)\0hideMouse()\0"
+    "mousePressEvent(QMouseEvent*)\0"
+    "mouseReleaseEvent(QMouseEvent*)\0"
+    "hideMouse()\0"
 };
 
 void QProjectMWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -78,7 +81,8 @@ void QProjectMWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
         case 8: _t->setPresetLock((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 9: _t->setShuffleEnabled((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 10: _t->mousePressEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
-        case 11: _t->hideMouse(); break;
+        case 11: _t->mouseReleaseEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
+        case 12: _t->hideMouse(); break;
         default: ;
         }
     }
@@ -116,9 +120,9 @@ int QProjectMWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 12)
+        if (_id < 13)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 12;
+        _id -= 13;
     }
     return _id;
 }

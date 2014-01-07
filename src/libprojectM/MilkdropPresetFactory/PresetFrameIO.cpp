@@ -210,6 +210,7 @@ void PresetOutputs::Render(const BeatDetect &music, const PipelineContext &conte
 	drawables.clear();
 
 	drawables.push_back(&mv);
+  drawables.push_back(&input_wave);
 
 	for (PresetOutputs::cshape_container::iterator pos = customShapes.begin();
 			pos != customShapes.end(); ++pos)
@@ -224,7 +225,6 @@ void PresetOutputs::Render(const BeatDetect &music, const PipelineContext &conte
 			}
 
   drawables.push_back(&wave);
-  drawables.push_back(&input_wave);
 
 	if (bDarkenCenter==1) drawables.push_back(&darkenCenter);
 	drawables.push_back(&border);

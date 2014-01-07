@@ -34,32 +34,37 @@ void InputWaveform::Draw(RenderContext &context)
   }
 }
 
-void InputWaveform::WaveformMath(RenderContext &context)
+inline void InputWaveform::blobMath(RenderContext &context, PrismaticInputAdapter::InputPoint* p)
 {
-  PrismaticInputAdapter* input = context.prismaticInput;
-  assert(input != 0);
+  int i;
+  float r, theta;
+  BeatDetect* beatDetect = context.beatDetect;
+  float t = context.time;
 
-  std::vector<PrismaticInputAdapter::InputPoint> points = input->GetPoints();
-  size_t p_size = points.size();
+  x = p->x;
+  y = p->y;
+  depth = fmax(p->z, 0.5f);
 
-  // No inputs, do nothing
-  if (p_size == 0) { return; }
-  else if (p_size == 1) {
-    // Draw a blob at the input point
-    mode = RadialBlob;
-    PrismaticInputAdapter::InputPoint* p = &points[0];
+  samples = 512-32;
 
-    aspectScale = p->z*0.3f;
-    x = p->x;
-    y = p->y;
-    // printf("%f, %f \n", x, y);
-    MilkdropWaveform::WaveformMath(context);
-    return;
+  for (i=0; i<samples; i++)
+  {
+    theta = i/(float)samples*2*M_PI + beatDetect->pcm->pcmdataL[i+32] + t*2.3;
+    r = 0.06 + 0.1*beatDetect->pcm->pcmdataR[i];
+
+    wavearray[i][0]=x - r*cos(theta);
+    wavearray[i][1]=y - r*sin(theta);
   }
+}
 
+inline void InputWaveform::multiPointMath(RenderContext &context, std::vector<PrismaticInputAdapter::InputPoint> &points)
+{
+  // TODO: Awesome multi-point effects
   int i;
 
-  loop = false;
+  float wave_x_temp=0;
+  float wave_y_temp=0;
+
   rot = -mystery*90;
   aspectScale = 1.0;
 
@@ -74,12 +79,43 @@ void InputWaveform::WaveformMath(RenderContext &context)
 
   printf("%f, %f \n", dist, grad);
   float temp_x = p1.x;
+  float temp_y;
   for (i = 0;i < samples;i++)
   {
     temp_x += incr;
-    float temp_y = grad*temp_x+grad*p1.x-p1.y;
+    temp_y = grad*temp_x+grad*p1.x-p1.y;
 
     wavearray[i][0] = temp_x;
     wavearray[i][1] = temp_y;// + context.beatDetect->pcm->pcmdataR[i]*.04*scale;
+  }
+}
+
+void InputWaveform::WaveformMath(RenderContext &context)
+{
+  PrismaticInputAdapter* input = context.prismaticInput;
+  BeatDetect* beatDetect = context.beatDetect;
+  float t = context.time;
+
+  assert(input != 0);
+
+  std::vector<PrismaticInputAdapter::InputPoint> points = input->GetPoints();
+
+  two_waves = false;
+  loop = false;
+
+  // TODO: Colour calculations
+  b = r = depth;
+  g = -1.0*(depth - 1.0);
+
+  rot = 0;
+  aspectScale = context.aspectRatio;
+
+  size_t p_size = points.size();
+  if (p_size == 1) {
+    // Draw a blob at the input point
+    this->blobMath(context, &points[0]);
+  } else {
+    // Else do something a little more complex
+    this->multiPointMath(context, points);
   }
 }

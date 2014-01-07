@@ -29,6 +29,7 @@
 #include "qprojectm.hpp"
 #include "PrismaticInputAdapter.hpp"
 #include "PrismaticTestInputAdapter.hpp"
+#include "PrismaticMouseInputAdapter.hpp"
 
 #include <QGLWidget>
 #include <QMutex>
@@ -45,7 +46,7 @@ class QProjectMWidget : public QGLWidget
 
 	public:
     // The type of prismatic input to use // "test"/"mouse"/"kinect"
-    static const pm_input_type_t PRISMATIC_INPUT_TYPE = PRISMATIC_TEST_INPUT;
+    static const pm_input_type_t PRISMATIC_INPUT_TYPE = PRISMATIC_MOUSE_INPUT;
     // Timeout before mouse cursor disappears (ms)
 		static const int MOUSE_VISIBLE_TIMEOUT_MS = 5000;
 
@@ -62,8 +63,8 @@ class QProjectMWidget : public QGLWidget
 				m_mouseTimer->start ( mouseHideTimeoutSeconds * 1000);
 
 			connect ( m_mouseTimer, SIGNAL ( timeout() ), this, SLOT ( hideMouse() ) );
-			this->setMouseTracking ( true );
 
+			this->setMouseTracking ( true );
 		}
 
 		~QProjectMWidget() {
@@ -104,11 +105,17 @@ class QProjectMWidget : public QGLWidget
 	protected slots:
 		inline void mouseMoveEvent ( QMouseEvent * event )
 		{
-
 			m_mouseTimer->stop();
 			QApplication::restoreOverrideCursor();
 			if (mouseHideTimeoutSeconds > 0)
 				m_mouseTimer->start ( mouseHideTimeoutSeconds*1000 );
+
+      if (PRISMATIC_INPUT_TYPE == PRISMATIC_MOUSE_INPUT && m_prismatic_input != 0)
+      {
+        float new_x = event->x() / (float)width();
+        float new_y = event->y() / (float)height();
+        static_cast<PrismaticMouseInputAdapter*>(m_prismatic_input)->UpdateCoords(new_x, new_y);
+      }
 		}
 
 		inline void leaveEvent ( QEvent * event )
@@ -162,7 +169,13 @@ class QProjectMWidget : public QGLWidget
 		void mousePressEvent ( QMouseEvent * event )
 		{
 			this->setFocus();
+      this->handleMouseButtons(event);
 		}
+
+    void mouseReleaseEvent(QMouseEvent* event)
+    {
+      this->handleMouseButtons(event);
+    }
 
 	signals:
 		void projectM_Initialized ( QProjectM * );
@@ -203,7 +216,7 @@ class QProjectMWidget : public QGLWidget
           return new PrismaticTestInputAdapter();
 
         case PRISMATIC_MOUSE_INPUT:
-          throw std::runtime_error("Not implemented");
+          return new PrismaticMouseInputAdapter();
 
         case PRISMATIC_KINECT_INPUT:
           throw std::runtime_error("Not implemented");
@@ -306,6 +319,16 @@ class QProjectMWidget : public QGLWidget
 		{
 			m_projectM->renderFrame();
 		}
+
+    inline void handleMouseButtons(QMouseEvent* event)
+    {
+      Qt::MouseButtons buttons = event->buttons();
+
+      if (PRISMATIC_INPUT_TYPE == PRISMATIC_MOUSE_INPUT && m_prismatic_input != 0) {
+        float new_z = (buttons & Qt::LeftButton) ? 1.0f : 0.5f;
+        static_cast<PrismaticMouseInputAdapter*>(m_prismatic_input)->SetZ(new_z);
+      }
+    }
 
 	private:
 		int mouseHideTimeoutSeconds;

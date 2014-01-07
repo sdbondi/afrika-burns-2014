@@ -69,6 +69,9 @@ set(projectM-qt_SRCS
 
     #Prismatic
     PrismaticTestInputAdapter.cpp
+    PrismaticTestInputAdapter.hpp
+    PrismaticMouseInputAdapter.cpp
+    PrismaticMouseInputAdapter.hpp
 )
 
 
@@ -86,6 +89,7 @@ set(projectM-qt_MOC_HDRS
 
     #Prismatic
     PrismaticTestInputAdapter.hpp
+    PrismaticMouseInputAdapter.hpp
 )
 
 set(projectM-qt_UIS
