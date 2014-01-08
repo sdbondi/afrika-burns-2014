@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'QPulseAudioDeviceModel.hpp'
 **
-** Created: Mon Dec 23 23:11:49 2013
+** Created: Wed Jan 8 16:34:06 2014
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.4)
 **
 ** WARNING! All changes made in this file will be lost!

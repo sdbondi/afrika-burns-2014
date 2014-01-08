@@ -45,7 +45,7 @@ inline void InputWaveform::blobMath(RenderContext &context, PrismaticInputAdapte
   y = p->y;
   depth = fmax(p->z, 0.5f);
 
-  samples = 512-32;
+  samples = beatDetect->pcm->numsamples;// 512-32;
 
   for (i=0; i<samples; i++)
   {
@@ -61,32 +61,48 @@ inline void InputWaveform::multiPointMath(RenderContext &context, std::vector<Pr
 {
   // TODO: Awesome multi-point effects
   int i;
-
-  float wave_x_temp=0;
-  float wave_y_temp=0;
+  BeatDetect* beatDetect = context.beatDetect;
+  float t = context.time;
+  size_t num_points = points.size();
 
   rot = -mystery*90;
   aspectScale = 1.0;
 
-  samples = 512-32;//context.beatDetect->pcm->numsamples;
+  samples = (512-32);//context.beatDetect->pcm->numsamples;
 
-  PrismaticInputAdapter::InputPoint p1 = {0.5f,0.5f,0};
-  PrismaticInputAdapter::InputPoint p2 = {0.5f,0.8f,0};
+  typedef std::vector<PrismaticInputAdapter::InputPoint>::const_iterator point_itr;
 
-  float grad = (p2.x == p1.x) ? 1.0f : (p2.y - p1.y) / (p2.x - p1.x);
-  float dist = sqrt(pow(p2.x-p1.x, 2) + pow(p2.y - p1.y, 2));
-  float incr = dist/(float)samples;
+  float (*wave)[2048][2] = &wavearray;
 
-  printf("%f, %f \n", dist, grad);
-  float temp_x = p1.x;
-  float temp_y;
-  for (i = 0;i < samples;i++)
+  two_waves = true;
+
+  point_itr p1;
+  point_itr p2;
+  for (p1 = points.begin(); p1 != points.end(); ++p1)
   {
-    temp_x += incr;
-    temp_y = grad*temp_x+grad*p1.x-p1.y;
+    p2 = p1+1;
+    if (p1 == points.end()) {
+      p2 = points.begin();
+    }
 
-    wavearray[i][0] = temp_x;
-    wavearray[i][1] = temp_y;// + context.beatDetect->pcm->pcmdataR[i]*.04*scale;
+    // float grad = (p2.x == p1.x) ? 1.0f : (p2.y - p1.y) / (p2.x - p1.x);
+    // float dist = sqrt(pow(p2.x-p1.x, 2) + pow(p2.y - p1.y, 2));
+
+    float temp_x = p1->x;
+    float temp_y = p1->y;
+    float incr_x = (p2->x - p1->x)/(float)samples;
+    float incr_y = (p2->y - p1->y)/(float)samples;
+
+    for (i = 0; i < samples; i++)
+    {
+      temp_x += incr_x;
+      temp_y += incr_y;
+
+      (*wave)[i][0] = temp_x + 0.1*beatDetect->pcm->pcmdataR[i];
+      (*wave)[i][1] = temp_y + 0.1*beatDetect->pcm->pcmdataL[i];
+    }
+
+    wave = &wavearray2;
   }
 }
 
@@ -103,7 +119,7 @@ void InputWaveform::WaveformMath(RenderContext &context)
   two_waves = false;
   loop = false;
 
-  // TODO: Colour calculations
+  // TODO: Interesting/random colour calculations
   b = r = depth;
   g = -1.0*(depth - 1.0);
 

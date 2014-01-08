@@ -108,6 +108,7 @@ class QProjectMWidget : public QGLWidget
 		{
 			m_mouseTimer->stop();
 			QApplication::restoreOverrideCursor();
+
 			if (mouseHideTimeoutSeconds > 0)
 				m_mouseTimer->start ( mouseHideTimeoutSeconds*1000 );
 

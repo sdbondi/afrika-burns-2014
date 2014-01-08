@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'qprojectmconfigdialog.ui'
 **
-** Created: Mon Dec 23 22:48:28 2013
+** Created: Wed Jan 8 16:33:52 2014
 **      by: Qt User Interface Compiler version 4.8.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'qprojectm.hpp'
 **
-** Created: Sat Jan 4 19:50:23 2014
+** Created: Wed Jan 8 16:33:51 2014
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.4)
 **
 ** WARNING! All changes made in this file will be lost!

@@ -13,6 +13,14 @@ std::vector<PrismaticInputAdapter::InputPoint> PrismaticMouseInputAdapter::GetPo
   PrismaticInputAdapter::InputPoint p = {x,y,z};
   result.push_back(p);
 
+  p.x = 0.5;
+  p.y = 0.5;
+  result.push_back(p);
+
+  p.x = 0.3;
+  p.y = 0.8;
+  result.push_back(p);
+
   return result;
 }
 

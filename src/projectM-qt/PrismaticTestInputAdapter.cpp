@@ -16,7 +16,12 @@ std::vector<PrismaticInputAdapter::InputPoint> PrismaticTestInputAdapter::GetPoi
   if (z > 1.0f) { z=0.5f; } else { z=1.0f; }
   std::vector<PrismaticInputAdapter::InputPoint> result;
 
-  PrismaticInputAdapter::InputPoint p = {x,y,z};
+  // PrismaticInputAdapter::InputPoint p = {x,y,z};
+  PrismaticInputAdapter::InputPoint p = {0.25,0.25,0};
+  result.push_back(p);
+
+  p.x = 0.75;
+  p.y = 0.5;
   result.push_back(p);
 
   return result;
