@@ -1,14 +1,14 @@
 /**
  *
  */
-#ifndef __PRISMATIC_KINECT_INPUT_ADAPTER_HPP
-#define __PRISMATIC_KINECT_INPUT_ADAPTER_HPP
+#ifndef __PRISMATIC_OPENNI_INPUT_ADAPTER_HPP
+#define __PRISMATIC_OPENNI_INPUT_ADAPTER_HPP
 #include "PrismaticInputAdapter.hpp"
 
-class PrismaticKinectInputAdapter: public PrismaticInputAdapter
+class PrismaticOpenNIInputAdapter: public PrismaticInputAdapter
 {
   public:
-    PrismaticKinectInputAdapter();
+    PrismaticOpenNIInputAdapter();
 
     virtual std::vector<PrismaticInputAdapter::InputPoint> GetPoints();
     virtual const pm_input_type input_type() { return OpenNIInput; }

@@ -30,7 +30,7 @@
 #include "PrismaticInputAdapter.hpp"
 #include "PrismaticTestInputAdapter.hpp"
 #include "PrismaticMouseInputAdapter.hpp"
-#include "PrismaticKinectInputAdapter.hpp"
+#include "PrismaticOpenNIInputAdapter.hpp"
 
 #include <QGLWidget>
 #include <QMutex>
@@ -46,7 +46,7 @@ class QProjectMWidget : public QGLWidget
 		Q_OBJECT        // must include this if you use Qt signals/slots
 
 	public:
-    // The type of prismatic input to use // "test"/"mouse"/"kinect"
+    // The type of prismatic input to use // "test"/"mouse"/"openNi"
     static const pm_input_type PRISMATIC_INPUT_TYPE = MouseInput;
     // Timeout before mouse cursor disappears (ms)
 		static const int MOUSE_VISIBLE_TIMEOUT_MS = 5000;
@@ -221,7 +221,7 @@ class QProjectMWidget : public QGLWidget
           return new PrismaticMouseInputAdapter();
 
         case OpenNIInput:
-          return new PrismaticKinectInputAdapter();
+          return new PrismaticOpenNIInputAdapter();
 
         default:
           throw std::runtime_error("Invalid Prismatic Input Type");
