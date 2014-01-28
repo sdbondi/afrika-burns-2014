@@ -11,7 +11,7 @@ class PrismaticMouseInputAdapter: public PrismaticInputAdapter
     PrismaticMouseInputAdapter();
 
     virtual std::vector<PrismaticInputAdapter::InputPoint> GetPoints();
-    virtual const pm_input_type_t input_type() { return PRISMATIC_MOUSE_INPUT; }
+    virtual const pm_input_type input_type() { return MouseInput; }
 
     void UpdateCoords(float x, float y, float z = -1.0f);
     void UpdateCoords(PrismaticInputAdapter::InputPoint p);

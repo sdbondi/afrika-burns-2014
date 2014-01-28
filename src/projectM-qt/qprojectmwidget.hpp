@@ -47,7 +47,7 @@ class QProjectMWidget : public QGLWidget
 
 	public:
     // The type of prismatic input to use // "test"/"mouse"/"kinect"
-    static const pm_input_type_t PRISMATIC_INPUT_TYPE = PRISMATIC_MOUSE_INPUT;
+    static const pm_input_type PRISMATIC_INPUT_TYPE = MouseInput;
     // Timeout before mouse cursor disappears (ms)
 		static const int MOUSE_VISIBLE_TIMEOUT_MS = 5000;
 
@@ -112,7 +112,7 @@ class QProjectMWidget : public QGLWidget
 			if (mouseHideTimeoutSeconds > 0)
 				m_mouseTimer->start ( mouseHideTimeoutSeconds*1000 );
 
-      if (m_prismatic_input != 0 && m_prismatic_input->input_type() == PRISMATIC_MOUSE_INPUT)
+      if (m_prismatic_input != 0 && m_prismatic_input->input_type() == MouseInput)
       {
         float new_x = event->x() / (float)width();
         float new_y = event->y() / (float)height();
@@ -211,16 +211,16 @@ class QProjectMWidget : public QGLWidget
 		QMutex m_presetSeizeMutex;
 		bool m_presetWasLocked;
 
-    PrismaticInputAdapter* createPrismaticInput(const pm_input_type_t adapter_type) {
+    PrismaticInputAdapter* createPrismaticInput(const enum pm_input_type adapter_type) {
       qDebug() << "Initializing PrismaticInputAdapter";
       switch (adapter_type) {
-        case PRISMATIC_TEST_INPUT:
+        case TestInput:
           return new PrismaticTestInputAdapter();
 
-        case PRISMATIC_MOUSE_INPUT:
+        case MouseInput:
           return new PrismaticMouseInputAdapter();
 
-        case PRISMATIC_KINECT_INPUT:
+        case OpenNIInput:
           return new PrismaticKinectInputAdapter();
 
         default:
@@ -326,7 +326,7 @@ class QProjectMWidget : public QGLWidget
     {
       Qt::MouseButtons buttons = event->buttons();
 
-      if (m_prismatic_input != 0 && m_prismatic_input->input_type() == PRISMATIC_MOUSE_INPUT) {
+      if (m_prismatic_input != 0 && m_prismatic_input->input_type() == MouseInput) {
         float new_z = (buttons & Qt::LeftButton) ? 1.0f : 0.5f;
         static_cast<PrismaticMouseInputAdapter*>(m_prismatic_input)->SetZ(new_z);
       }

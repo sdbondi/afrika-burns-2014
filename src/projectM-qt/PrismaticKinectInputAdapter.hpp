@@ -11,6 +11,6 @@ class PrismaticKinectInputAdapter: public PrismaticInputAdapter
     PrismaticKinectInputAdapter();
 
     virtual std::vector<PrismaticInputAdapter::InputPoint> GetPoints();
-    virtual const pm_input_type_t input_type() { return PRISMATIC_KINECT_INPUT; }
+    virtual const pm_input_type input_type() { return OpenNIInput; }
 };
 #endif

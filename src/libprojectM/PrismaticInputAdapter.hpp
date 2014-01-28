@@ -8,10 +8,11 @@
 #include <stdint.h>
 #include <vector>
 
-typedef uint8_t pm_input_type_t;
-const pm_input_type_t PRISMATIC_TEST_INPUT = 0;
-const pm_input_type_t PRISMATIC_MOUSE_INPUT = 1;
-const pm_input_type_t PRISMATIC_KINECT_INPUT = 2;
+enum pm_input_type {
+  TestInput,
+  MouseInput,
+  OpenNIInput
+};
 
 class PrismaticInputAdapter
 {
@@ -26,6 +27,6 @@ class PrismaticInputAdapter
     virtual ~PrismaticInputAdapter();
 
     virtual std::vector<InputPoint> GetPoints() = 0;
-    virtual const pm_input_type_t input_type() = 0;
+    virtual const pm_input_type input_type() = 0;
 };
 #endif
